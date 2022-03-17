@@ -13,13 +13,13 @@
 
 
 
-## Docker
+## Build
 
 ```bash
 git clone https://github.com/lspserver/servers.git
 
 cd servers
-docker build --no-cache -f Dockerfile -t ghcr.io/lspserver/servers:latest .
+./build.sh
 ```
 
 
