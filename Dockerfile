@@ -12,7 +12,8 @@ RUN echo "deb $APT focal main multiverse restricted universe" | tee /etc/apt/sou
     echo "deb $APT focal-updates main multiverse restricted universe" | tee --append /etc/apt/sources.list
 RUN apt update -y && \
     apt install -y build-essential clang cmake curl file git libclang-10-dev libncurses-dev locales lsof m4 make net-tools nodejs npm && \
-    apt install -y patch python3 python3-pip rapidjson-dev software-properties-common sudo unzip upx vim wget yarn zip zlib1g-dev
+    apt install -y patch python3 python3-pip rapidjson-dev software-properties-common sudo unzip upx vim wget zip zlib1g-dev
+RUN npm install --global yarn
 RUN apt autoremove --purge -y > /dev/null && \
     apt autoclean -y > /dev/null && \
     rm -rf /var/lib/apt/lists/* && \
