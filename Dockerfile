@@ -13,7 +13,6 @@ RUN echo "deb $APT focal main multiverse restricted universe" | tee /etc/apt/sou
 RUN apt update -y && \
     apt install -y build-essential clang cmake curl file git libclang-10-dev libncurses-dev locales lsof m4 make net-tools nodejs npm && \
     apt install -y patch python3 python3-pip rapidjson-dev software-properties-common sudo unzip upx vim wget zip zlib1g-dev
-RUN npm install --global yarn
 RUN apt autoremove --purge -y > /dev/null && \
     apt autoclean -y > /dev/null && \
     rm -rf /var/lib/apt/lists/* && \
@@ -35,6 +34,22 @@ RUN locale-gen $LANG_EN && \
 ENV LANG=$LANG_EN
 ENV LC_ALL=$LANG_EN
 ENV SHELL="/bin/bash"
+
+USER craftslab
+WORKDIR /home/craftslab
+RUN curl -LO https://nodejs.org/dist/v14.17.5/node-v14.17.5-linux-x64.tar.xz && \
+    tar Jxvf node*.tar.xz && \
+    rm node*.tar.xz && \
+    mv node-* node
+ENV PATH=/home/craftslab/node/bin:$PATH
+
+USER craftslab
+WORKDIR /home/craftslab
+RUN npm install --global yarn && \
+    npm install --global yrm && \
+    yrm use taobao && \
+    yarn global add typescript
+ENV PATH=/home/craftslab/.yarn/bin:$PATH
 
 USER craftslab
 WORKDIR /home/craftslab
