@@ -19,6 +19,8 @@ jobs:
       - name: Run build
         run: ./build.sh
         continue-on-error: false
+      - name: Run login
+        run: echo "${{ secrets.LSPSERVER_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Run delivery
         run: ./delivery.sh
         continue-on-error: false

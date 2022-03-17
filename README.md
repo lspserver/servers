@@ -60,4 +60,5 @@ Project License can be found [here](LICENSE).
 
 ### Misc
 
+- [publishing-and-installing-a-package-with-github-actions](https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions)
 - [publishing-docker-images](https://docs.github.com/en/actions/guides/publishing-docker-images)
