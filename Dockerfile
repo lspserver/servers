@@ -37,6 +37,13 @@ ENV SHELL="/bin/bash"
 
 USER craftslab
 WORKDIR /home/craftslab
+RUN curl -LO https://gomirrors.org/dl/go/go1.18.linux-amd64.tar.gz && \
+    tar zxvf go*.tar.gz
+ENV GOPATH=/home/craftslab/go
+ENV PATH=/home/craftslab/go/bin:$PATH
+
+USER craftslab
+WORKDIR /home/craftslab
 RUN curl -LO https://nodejs.org/dist/v14.17.5/node-v14.17.5-linux-x64.tar.xz && \
     tar Jxvf node*.tar.xz && \
     rm node*.tar.xz && \
@@ -58,6 +65,11 @@ RUN git clone --depth=1 --recursive https://github.com/MaskRay/ccls && \
     cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-10 -DLLVM_INCLUDE_DIR=/usr/lib/llvm-10/include -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10 && \
     cmake --build Release
 ENV PATH=/home/craftslab/ccls/Release:$PATH
+
+USER craftslab
+WORKDIR /home/craftslab
+RUN go install golang.org/x/tools/gopls@latest
+ENV PATH=/home/craftslab/go/bin:$PATH
 
 USER craftslab
 WORKDIR /home/craftslab
