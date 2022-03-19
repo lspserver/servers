@@ -61,7 +61,9 @@ ENV PATH=/home/craftslab/ccls/Release:$PATH
 
 USER craftslab
 WORKDIR /home/craftslab
-RUN npm install bash-language-server dockerfile-language-server-nodejs typescript typescript-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin
+RUN npm install bash-language-server dockerfile-language-server-nodejs javascript-typescript-langserver && \
+    npm install typescript typescript-language-server && \
+    npm install vscode-css-languageserver-bin vscode-html-languageserver-bin
 
 USER craftslab
 WORKDIR /home/craftslab
