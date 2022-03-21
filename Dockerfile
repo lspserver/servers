@@ -68,7 +68,8 @@ ENV PATH=/home/craftslab/ccls/Release:$PATH
 
 USER craftslab
 WORKDIR /home/craftslab
-RUN go install golang.org/x/tools/gopls@latest
+RUN go env -w GOPROXY=https://goproxy.cn,direct && \
+    go install golang.org/x/tools/gopls@latest
 ENV PATH=/home/craftslab/go/bin:$PATH
 
 USER craftslab
