@@ -38,7 +38,8 @@ ENV SHELL="/bin/bash"
 USER craftslab
 WORKDIR /home/craftslab
 RUN curl -LO https://gomirrors.org/dl/go/go1.18.linux-amd64.tar.gz && \
-    tar zxvf go*.tar.gz
+    tar zxvf go*.tar.gz && \
+    rm go*.tar.gz
 ENV GOPATH=/home/craftslab/go
 ENV PATH=/home/craftslab/go/bin:$PATH
 
