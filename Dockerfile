@@ -12,7 +12,9 @@ RUN echo "deb $APT focal main multiverse restricted universe" | tee /etc/apt/sou
     echo "deb $APT focal-updates main multiverse restricted universe" | tee --append /etc/apt/sources.list
 RUN apt update -y && \
     apt install -y build-essential clang cmake curl file git libclang-10-dev libncurses-dev locales lsof m4 make net-tools npm && \
-    apt install -y patch python3 python3-pip rapidjson-dev software-properties-common sudo unzip upx vim wget zip zlib1g-dev
+    apt install -y openjdk-17-jdk patch python3 python3-pip rapidjson-dev software-properties-common sudo unzip upx vim wget zip zlib1g-dev && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt install -y python3.9
 RUN apt autoremove --purge -y > /dev/null && \
     apt autoclean -y > /dev/null && \
     rm -rf /var/lib/apt/lists/* && \
@@ -75,13 +77,23 @@ ENV PATH=/home/craftslab/go/bin:$PATH
 
 USER craftslab
 WORKDIR /home/craftslab
-RUN npm install bash-language-server dockerfile-language-server-nodejs javascript-typescript-langserver && \
-    npm install typescript typescript-language-server && \
-    npm install vscode-css-languageserver-bin vscode-html-languageserver-bin
+RUN npm install -g bash-language-server dockerfile-language-server-nodejs javascript-typescript-langserver && \
+    npm install -g typescript typescript-language-server && \
+    npm install -g vscode-css-languageserver-bin vscode-html-languageserver-bin
 
 USER craftslab
 WORKDIR /home/craftslab
-RUN pip3 install 'python-language-server[all]'
+RUN mkdir jdt-language-server && \
+    pushd jdt-language-server && \
+    curl -L https://download.eclipse.org/jdtls/milestones/1.9.0/jdt-language-server-1.9.0-202203031534.tar.gz -o jdt-language-server.tar.gz && \
+    tar zxvf jdt-language-server.tar.gz && \
+    rm *.tar.gz && \
+    popd
+ENV PATH=/home/craftslab/jdt-language-server/bin:$PATH
+
+USER craftslab
+WORKDIR /home/craftslab
+RUN sudo pip3 install "python-lsp-server[all]"
 
 USER craftslab
 WORKDIR /home/craftslab
