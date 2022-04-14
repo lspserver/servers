@@ -63,7 +63,7 @@ ENV PATH=/home/craftslab/.yarn/bin:$PATH
 
 USER craftslab
 WORKDIR /home/craftslab
-RUN git clone --depth=1 --recursive https://github.com/MaskRay/ccls && \
+RUN git clone --depth=1 --recursive https://github.com/MaskRay/ccls -b 0.20210330 && \
     cd ccls && \
     cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-10 -DLLVM_INCLUDE_DIR=/usr/lib/llvm-10/include -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10 && \
     cmake --build Release
